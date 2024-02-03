@@ -1,8 +1,11 @@
+"use client"
 import Image from "next/image";
 import { Card } from "@repo/ui/card";
 import { Code } from "@repo/ui/code";
 import styles from "./page.module.css";
 import { Button } from "@repo/ui/button";
+import { useState } from "react";
+import { useSocket } from "./context/SocketProvider";
 
 function Gradient({
   conic,
@@ -52,6 +55,8 @@ const LINKS = [
 ];
 
 export default function Page(): JSX.Element {
+  const { sendMessage, messages } = useSocket();
+  const [message, setMessage] = useState("");
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -77,10 +82,10 @@ export default function Page(): JSX.Element {
           </a>
         </div>
       </div>
-
-      <Button appName="web" className={styles.button}>
+    <input type="text" placeholder="Enter you message" onChange={e => setMessage(e.target.value)}/>
+      <button className={styles.button} onClick={(e) => sendMessage(message)}>
         Click me!
-      </Button>
+      </button>
 
       <div className={styles.hero}>
         <div className={styles.heroContent}>
